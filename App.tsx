@@ -38,7 +38,7 @@ const App: React.FC = () => {
 
     const id = await OneSignal.User.pushSubscription.getIdAsync();
 
-    if (id) {
+    if (id && granted) {
       console.log(id);
       const body = {
         app_id: 'd76f46ed-3a60-46a6-82b4-623e7b8d90c1', //onesignal app id
@@ -48,11 +48,6 @@ const App: React.FC = () => {
         },
         name: 'Testing',
         headings: {en: 'Product Assignments'},
-        buttons: [
-          {id: 'first', text: 'first', icon: 'ic_menu_share'},
-          {id: 'second', text: 'Second', icon: 'ic_menu_map'},
-        ],
-        //  big_picture: item?.Image,
       };
       createNotification(body);
     }
@@ -65,9 +60,6 @@ const App: React.FC = () => {
   //     //   authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
   //     //   authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  //     const enabled = PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-  //     );
   //     if (enabled) {
   //       console.log('Permission granted for push notifications');
   //       getFCMToken();

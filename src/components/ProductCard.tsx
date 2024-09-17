@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import storage from '@react-native-firebase/storage';
 
 interface ItemCardProps {
   item: any;
@@ -17,6 +18,16 @@ interface ItemCardProps {
 }
 
 const ProductCard: React.FC<ItemCardProps> = ({item, onDelete, onEdit}) => {
+  const [url, setURL] = useState('');
+  useEffect(() => {
+    !item.thumbnail && getURL();
+  }, []);
+  const getURL = async () => {
+    const url = await storage()
+      .ref('gs://arvassigment.appspot.com')
+      .getDownloadURL();
+    setURL(url);
+  };
   const handleDelete = () => {
     Alert.alert(
       'Delete Item',
@@ -43,9 +54,7 @@ const ProductCard: React.FC<ItemCardProps> = ({item, onDelete, onEdit}) => {
       </View>
       <Image
         source={{
-          uri:
-            item.thumbnail ??
-            'https://www.shutterstock.com/shutterstock/photos/2421574099/display_1500/stock-vector-attention-icon-set-danger-caution-or-alert-risk-warning-vector-symbol-in-a-black-filled-and-2421574099.jpg',
+          uri: item.thumbnail ?? url,
         }}
         style={styles.thumbnail}
         resizeMode="contain"

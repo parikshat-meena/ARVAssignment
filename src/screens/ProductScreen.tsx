@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CameraGallaryComp from '../components/CameraGallaryComp';
+import storage from '@react-native-firebase/storage';
 
 interface CommonFormProps {
   item?: any;
@@ -19,7 +21,6 @@ interface CommonFormProps {
 
 const CommonForm: React.FC<CommonFormProps> = props => {
   const {item, onSubmit} = props.route.params;
-  // console.log(item, 'item in commonform');
   const [title, setTitle] = useState(item?.title || '');
   const [description, setDescription] = useState(item?.description || '');
   const [price, setPrice] = useState(item?.price.toString() || '');
@@ -32,7 +33,10 @@ const CommonForm: React.FC<CommonFormProps> = props => {
     item?.availabilityStatus || '',
   );
   const [tags, setTags] = useState(item?.tags.join(', ') || '');
+  const [imgResponse, setImgResponse] = useState<any>();
+  const reference = storage().ref('gs://arvassigment.appspot.com');
   const navigation = useNavigation();
+  console.log(imgResponse?.filePath, 'imgae');
   useEffect(() => {
     if (item) {
       setTitle(item.title);
@@ -46,7 +50,7 @@ const CommonForm: React.FC<CommonFormProps> = props => {
     }
   }, [item]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       !title ||
       !description ||
@@ -74,6 +78,10 @@ const CommonForm: React.FC<CommonFormProps> = props => {
     };
 
     onSubmit(newItem, item?.id ? 'Update' : 'Add');
+    const pathToFile = `${imgResponse.filePath}`;
+    // uploads file
+    await reference.putFile(pathToFile);
+
     onBack();
   };
 
@@ -82,7 +90,9 @@ const CommonForm: React.FC<CommonFormProps> = props => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{paddingBottom: 40}}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#000" />
@@ -147,6 +157,10 @@ const CommonForm: React.FC<CommonFormProps> = props => {
 
       <Text style={styles.label}>Tags (comma-separated)</Text>
       <TextInput style={styles.input} value={tags} onChangeText={setTags} />
+      <CameraGallaryComp
+        setImgResponse={setImgResponse}
+        heading={'Upload Images'}
+      />
     </ScrollView>
   );
 };
@@ -154,7 +168,9 @@ const CommonForm: React.FC<CommonFormProps> = props => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#fff',
+    paddingBottom: 20,
+    backgroundColor: 'white',
+    // marginBottom: 40,
   },
   header: {
     flexDirection: 'row',

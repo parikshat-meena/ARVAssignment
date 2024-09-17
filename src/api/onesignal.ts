@@ -4,13 +4,13 @@ const AppId = 'd76f46ed-3a60-46a6-82b4-623e7b8d90c1';
 const ApiKey = 'ZTc3OWJlZjItMzFkNC00ZTU0LTk0MGUtNjkwYTYyNjViZmI0';
 const HEADERS = {
   Accept: 'application/json',
-  Authorization: `Basic ${ApiKey}`, // authorization required only for include_aliases
+  // Authorization: `Basic ${ApiKey}`, // authorization required only for include_aliases
   'Content-Type': 'application/json',
 };
 
 const notification = {
   method: 'POST',
-  url: `https://onesignal.com/api/v1/notifications`,
+  url: `https://api.onesignal.com/notifications`,
 };
 const createNotification = (body: any) => {
   console.log('.....................trigger notification..................');
@@ -18,7 +18,12 @@ const createNotification = (body: any) => {
   const options: any = {
     method: notification.method,
     url: notification.url,
-    ...HEADERS,
+    params: {c: 'push'},
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Basic ${ApiKey}`, // authorization required only for include_aliases
+      'Content-Type': 'application/json',
+    },
     data: body,
   };
 
