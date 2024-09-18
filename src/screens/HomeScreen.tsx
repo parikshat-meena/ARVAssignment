@@ -14,6 +14,7 @@ import ProductCard from '../components/ProductCard';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
+import {COLORS} from '../constants/color';
 
 const HomeScreen: React.FC<{navigation: any}> = ({navigation}) => {
   const [products, setproducts] = useState<Item[]>([]);
@@ -122,11 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: COLORS.secondaryColor,
     // flex: 1,
   },
   actionButton: {
-    right: 10,
-    bottom: 70,
+    right: 20,
+    bottom: 80,
     position: 'absolute',
     backgroundColor: '#1779ba',
     borderRadius: 50,

@@ -12,6 +12,7 @@ import {
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {COLORS} from '../constants/color';
 
 const {width} = Dimensions.get('screen');
 
@@ -186,6 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     backgroundColor: '#fff',
+    color: COLORS.secondaryColor,
   },
   errorBorder: {
     borderColor: 'red',

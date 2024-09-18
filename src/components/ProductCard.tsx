@@ -44,7 +44,7 @@ const ProductCard: React.FC<ItemCardProps> = ({item, onDelete, onEdit}) => {
     <View style={styles.card}>
       <View style={styles.iconContainer}>
         <TouchableOpacity
-          style={{backgroundColor: '#F2F2F2'}}
+          style={{backgroundColor: '#F2F2F2', padding: 1}}
           onPress={() => onEdit(item.id)}>
           <Icon name="edit" size={24} color="#000" style={styles.icon} />
         </TouchableOpacity>

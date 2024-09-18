@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CameraGallaryComp from '../components/CameraGallaryComp';
 import storage from '@react-native-firebase/storage';
+import {COLORS} from '../constants/color';
 
 interface CommonFormProps {
   item?: any;
@@ -78,9 +79,11 @@ const CommonForm: React.FC<CommonFormProps> = props => {
     };
 
     onSubmit(newItem, item?.id ? 'Update' : 'Add');
-    const pathToFile = `${imgResponse.filePath}`;
-    // uploads file
-    await reference.putFile(pathToFile);
+    if (imgResponse?.filePath) {
+      const pathToFile = `${imgResponse.filePath}`;
+      // uploads file
+      await reference.putFile(pathToFile);
+    }
 
     onBack();
   };
@@ -186,19 +189,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
+    color: COLORS.secondaryColor,
   },
   submitButton: {
     marginLeft: 10,
     justifyContent: 'center',
+    backgroundColor: COLORS.blue_chipe,
+    padding: 5,
+    borderRadius: 5,
+    elevation: 1,
   },
   submitText: {
     fontSize: 16,
-    color: '#007bff',
+    color: COLORS.new,
     fontWeight: 'bold',
   },
   label: {
-    fontSize: 16,
     fontWeight: 'bold',
+    fontSize: 16,
+    color: COLORS.new,
     marginVertical: 10,
   },
   input: {
@@ -207,6 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     fontSize: 16,
+    color: COLORS.secondaryColorLight,
     // marginBottom: 0,
   },
 });
